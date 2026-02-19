@@ -49,4 +49,18 @@ public class NewsletterController : Controller
         // Return the view (using the POST-REDIRECT-GET pattern)
         return RedirectToAction(nameof(Subscribe));  // use nameof() to find the action by name during compile time
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Unsubscribe(string email)
+    {
+        var subscriber = _subscribers.FirstOrDefault(s => s.Email == email);
+        if (subscriber != null)
+        {
+            _subscribers.Remove(subscriber);
+            TempData["SuccessMessage"] = $"Successfully unsubscribed {email} from the newsletter.";
+        }
+        return RedirectToAction(nameof(Subscribers));
+    }
+
 }
