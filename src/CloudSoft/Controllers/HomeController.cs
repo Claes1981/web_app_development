@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using CloudSoft.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CloudSoft.Controllers;
 
@@ -15,6 +15,12 @@ public class HomeController : Controller
     {
         return View();
     }
+
+    public IActionResult About()
+    {
+        return View();
+    }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
