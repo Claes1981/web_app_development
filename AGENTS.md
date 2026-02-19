@@ -1,8 +1,15 @@
 # AGENTS.md
-# Guidelines for Agentic Coding Agents Working in This Repository
+# Comprehensive Guidelines for Agentic Coding Agents
 
 ## Overview
-This document provides guidelines for automated coding agents working in the CloudSoft web application repository. It includes build commands, testing procedures, linting, code style conventions, and best practices.
+This document serves as a comprehensive guide for automated coding agents working in the CloudSoft web application repository. It includes:
+- Build, test, and lint commands
+- Code style conventions (naming, formatting, types)
+- Architecture patterns and best practices
+- Project-specific rules and workflows
+- Troubleshooting guidance
+
+All agentic tools should follow these guidelines when making changes to ensure consistency across the codebase.
 
 ---
 
@@ -116,6 +123,20 @@ public string Name { get; set; } // Non-nullable
 public string Email { get; set; } = default!; // Explicitly nullable
 ```
 
+#### String Literals
+Use verbatim strings (`@"..."`) for file paths or multi-line content:
+```csharp
+string path = @"C:\Users\Public\Documents";
+string sqlQuery = @"SELECT * FROM Users WHERE Active = 1";
+```
+
+Avoid magic strings; use constants or static readonly fields instead:
+```csharp
+private const string DefaultRole = "User";
+// Instead of: if (role == "User")
+if (role == DefaultRole)
+```
+
 ### ASP.NET Core Specific Conventions
 
 #### Controller Methods
@@ -217,6 +238,12 @@ Always validate input:
 - Mock external dependencies
 - Test both happy paths and edge cases
 - Include tests for error conditions
+
+### Code Organization
+- Group related methods together logically
+- Keep classes focused on single responsibilities
+- Limit class size to ~200 lines when possible
+- Use regions sparingly, prefer clear method organization
 
 ---
 
