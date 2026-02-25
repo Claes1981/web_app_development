@@ -48,6 +48,8 @@ else
 // Register service (depends on repository)
 builder.Services.AddScoped<INewsletterService, NewsletterService>();
 
+var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
