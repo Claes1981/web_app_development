@@ -524,3 +524,5 @@ tests/CoverageReport/index.htm
 tests/CoverageReport/index.html
 tests/CoverageReport/main.js
 tests/CoverageReport/report.css
+src/appsettings.Development.json
+src/infra/docker-compose.yml
