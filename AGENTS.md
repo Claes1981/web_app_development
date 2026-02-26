@@ -15,12 +15,15 @@ All agentic tools should follow these guidelines when making changes to ensure c
 
 ## Project Structure
 ```
-src/CloudSoft/
+src/
 ├── Controllers/      # MVC controllers
 ├── Models/           # Data models
 ├── Views/            # Razor views
 ├── wwwroot/          # Static assets
 └── Program.cs        # Application entry point
+
+tests/
+└── Services.UnitTests/  # Unit tests using xUnit
 ```
 
 ---
@@ -29,8 +32,8 @@ src/CloudSoft/
 
 ### Building the Project
 ```bash
-cd src/CloudSoft
-dotnet build
+cd src
+Dotnet build
 ```
 
 Build with release configuration:
@@ -45,7 +48,7 @@ dotnet clean && dotnet build
 
 ### Running the Application
 ```bash
-cd src/CloudSoft
+cd src
 dotnet run --urls http://localhost:5000
 ```
 
@@ -59,11 +62,11 @@ dotnet run --configuration Release
 ## Testing
 
 ### Test Framework
-The project uses xUnit for unit testing (if test projects exist).
+The project uses **xUnit** for unit testing.
 
 ### Running All Tests
 ```bash
-cd src
+cd .
 dotnet test
 ```
 
@@ -74,18 +77,18 @@ dotnet test -v n
 
 Run specific test project:
 ```bash
-dotnet test <TestProjectName>
+dotnet test tests/Services.UnitTests/Services.UnitTests.csproj
 ```
 
 ### Running a Single Test
-To run a single test method:
+To run a single test method by name:
 ```bash
 dotnet test --filter "FullyQualifiedName=Namespace.ClassName.MethodName"
 ```
 
 Example:
 ```bash
-dotnet test --filter "FullyQualifiedName=Tests.Controllers.HomeControllerTests.Index_Returns_View"
+dotnet test --filter "FullyQualifiedName=Services.UnitTests.NewsletterServiceTests.Subscribe_ValidEmail_ReturnsSuccess"
 ```
 
 List available tests:
@@ -130,21 +133,23 @@ string path = @"C:\Users\Public\Documents";
 string sqlQuery = @"SELECT * FROM Users WHERE Active = 1";
 ```
 
-Avoid magic strings; use constants or static readonly fields instead:
+Avoid magic strings; use constants instead:
 ```csharp
 private const string DefaultRole = "User";
 // Instead of: if (role == "User")
 if (role == DefaultRole)
 ```
 
-### ASP.NET Core Specific Conventions
+---
 
-#### Controller Methods
+## ASP.NET Core Specific Conventions
+
+### Controller Methods
 - Use `[HttpGet]`, `[HttpPost]`, etc. attributes explicitly
 - Separate GET and POST methods with different signatures or attributes
 - Return appropriate IActionResult types
 
-#### View Models
+### View Models
 Create dedicated view models instead of passing entities directly to views:
 ```csharp
 public class SubscribeViewModel
@@ -154,7 +159,7 @@ public class SubscribeViewModel
 }
 ```
 
-#### Error Handling
+### Error Handling
 Use ProblemDetails for API errors:
 ```csharp
 return BadRequest(new ProblemDetails
@@ -172,7 +177,7 @@ if (!ModelState.IsValid)
 }
 ```
 
-#### Logging
+### Logging
 Inject ILogger<T> and use structured logging:
 ```csharp
 private readonly ILogger<NewsletterController> _logger;
@@ -239,12 +244,6 @@ Always validate input:
 - Test both happy paths and edge cases
 - Include tests for error conditions
 
-### Code Organization
-- Group related methods together logically
-- Keep classes focused on single responsibilities
-- Limit class size to ~200 lines when possible
-- Use regions sparingly, prefer clear method organization
-
 ---
 
 ## Project-Specific Rules
@@ -258,47 +257,6 @@ Always validate input:
 - Add XML comments for public APIs
 - Document complex algorithms
 - Update documentation when code changes
-
-### Git Commit Messages
-Follow conventional commits format:
-- `feat: add new feature`
-- `fix: resolve bug`
-- `docs: update documentation`
-- `style: formatting changes`
-- `refactor: improve code structure`
-- `test: add tests`
-
----
-
-## Agent-Specific Instructions
-
-### When Making Changes
-1. Always read existing code first
-2. Follow established patterns
-3. Maintain consistency with surrounding code
-4. Run build after making changes
-5. Verify no regressions introduced
-
-### Before Submitting Work
-1. Check for unused usings
-2. Ensure proper nullability annotations
-3. Validate naming conventions
-4. Confirm error handling is present
-5. Review logging statements
-6. Test manually if possible
-
-### Common Tasks
-To create a new controller:
-1. Create file in Controllers/
-2. Add corresponding View folder
-3. Create basic Index action
-4. Add to navigation if applicable
-
-To add a new model:
-1. Create class in Models/
-2. Add DataAnnotations for validation
-3. Create view model if needed
-4. Write repository/service methods
 
 ---
 
@@ -323,7 +281,7 @@ Check logs in:
 - Browser developer tools
 
 ### Database Issues
-If using Entity Framework:
+If using Entity Framework or MongoDB:
 ```bash
 dotnet ef migrations add <Name>
 dotnet ef database update
